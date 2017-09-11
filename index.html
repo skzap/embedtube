@@ -1,0 +1,15 @@
+<html><body style='margin:0'>
+<script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+<script>
+var path=window.location.href.split('#!/')[1]
+steem.api.getContent(path.split('/')[0],path.split('/')[1],function(e,r){
+var v=JSON.parse(r.json_metadata).video
+var p=document.createElement('video')
+p.src='https://ipfs.io/ipfs/'+v.content.videohash
+p.poster='https://ipfs.io/ipfs/'+v.info.snaphash
+p.controls=true
+p.style='width:100%'
+document.body.appendChild(p)
+})
+</script>
+</body></html>
