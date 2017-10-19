@@ -78,7 +78,7 @@
     player.brand({
       image:"http://i.imgur.com/zq4SRTK.png",
       title:"Watch on DTube",
-      destination:"http://dtube.video/#!/v/"+path,destinationTarget:"_blank"
+      destination:"http://dtube.video/#!/v/"+path.split("/")[0]+'/'+path.split("/")[1],destinationTarget:"_blank"
     })
   }
 
