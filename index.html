@@ -29,22 +29,20 @@
     var posterUrl="https://ipfs.io/ipfs/"+a.info.snaphash;
     createPlayer("https://ipfs.io/ipfs/"+a.content.videohash, posterUrl, autoplay, nobranding)
 
-    // start torrent in background
+    // if there's a magnet link, start torrent in background
     if (a.content.magnet) {
       var Torrent = new WebTorrent()
       Torrent.add(a.content.magnet, function (torrent) {
         // and switch when torrent is ready  and downloading at fair speed!
         torrent.on('download', function (bytes) {
-          //console.log(itLoaded, torrent.downloadSpeed > a.info.filesize/a.info.duration)
-
-          if (!itLoaded && torrent.downloadSpeed > a.info.filesize/a.info.duration) {
-            var file = torrent.files[0];
-            var container = document.getElementById('player');
-            console.log(document.getElementById('player'))
-            file.renderTo(container);
-          }
           console.log('download speed: ' + torrent.downloadSpeed)
           console.log('progress: ' + torrent.progress)
+          if (!itLoaded && torrent.downloadSpeed > a.info.filesize/a.info.duration) {
+            itLoaded = true
+            var file = torrent.files[0]
+            var container = document.getElementById('player')
+            file.renderTo(container)
+          }
         })
       })
     }
