@@ -22,11 +22,12 @@
   steem.api.setOptions({ url: 'wss://steemd.privex.io' });
   var path=window.location.href.split("#!/")[1];
   var autoplay = path.split("/")[2]
+  var nobranding = path.split("/")[3]
   steem.api.getContent(path.split("/")[0], path.split("/")[1], function(d,b){
     var a=JSON.parse(b.json_metadata).video;
     // use ipfs as default
     var posterUrl="https://ipfs.io/ipfs/"+a.info.snaphash;
-    createPlayer("https://ipfs.io/ipfs/"+a.content.videohash, posterUrl, autoplay)
+    createPlayer("https://ipfs.io/ipfs/"+a.content.videohash, posterUrl, autoplay, nobranding)
 
     // start torrent in background
     if (a.content.magnet) {
@@ -47,7 +48,7 @@
     }
   });
 
-  function createPlayer(videoUrl, posterUrl, autoplay) {
+  function createPlayer(videoUrl, posterUrl, autoplay, branding) {
     var c=document.createElement("video");
     c.src=videoUrl;
     c.poster=posterUrl;
@@ -75,11 +76,12 @@
         durationDisplay:false
       }
     });
-    player.brand({
-      image:"http://i.imgur.com/zq4SRTK.png",
-      title:"Watch on DTube",
-      destination:"http://dtube.video/#!/v/"+path.split("/")[0]+'/'+path.split("/")[1],destinationTarget:"_blank"
-    })
+    if (!nobranding)
+      player.brand({
+        image:"http://i.imgur.com/zq4SRTK.png",
+        title:"Watch on DTube",
+        destination:"http://dtube.video/#!/v/"+path.split("/")[0]+'/'+path.split("/")[1],destinationTarget:"_blank"
+      })
   }
 
   function removePlayer() {
