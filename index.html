@@ -35,11 +35,13 @@
       Torrent.add(a.content.magnet, function (torrent) {
         // and switch when torrent is ready  and downloading at fair speed!
         torrent.on('download', function (bytes) {
+          //console.log(itLoaded, torrent.downloadSpeed > a.info.filesize/a.info.duration)
+
           if (!itLoaded && torrent.downloadSpeed > a.info.filesize/a.info.duration) {
-            torrent.files[0].getBlobURL(function (err, videoUrl ) {
-              player.src({type: 'video/mp4', src:videoUrl})
-            })
-            itLoaded = true
+            var file = torrent.files[0];
+            var container = document.getElementById('player');
+            console.log(document.getElementById('player'))
+            file.renderTo(container);
           }
           console.log('download speed: ' + torrent.downloadSpeed)
           console.log('progress: ' + torrent.progress)
@@ -63,19 +65,19 @@
       }
     });
     document.body.appendChild(c);
-    player=videojs("player",{
-      sourceOrder:true,
-      sources:[
-        {src:videoUrl,type:"video/mp4"}
-      ],
-      techOrder:["html5"],
-      playbackRates:[0.25,0.5,0.75,1,1.25,1.5,2],
-      controlBar:{
-        currentTimeDisplay:false,
-        timeDivider:false,
-        durationDisplay:false
-      }
-    });
+    // player=videojs("player",{
+    //   sourceOrder:true,
+    //   sources:[
+    //     {src:videoUrl,type:"video/mp4"}
+    //   ],
+    //   techOrder:["html5"],
+    //   playbackRates:[0.25,0.5,0.75,1,1.25,1.5,2],
+    //   controlBar:{
+    //     currentTimeDisplay:false,
+    //     timeDivider:false,
+    //     durationDisplay:false
+    //   }
+    // });
     if (!nobranding)
       player.brand({
         image:"http://i.imgur.com/zq4SRTK.png",
