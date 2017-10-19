@@ -40,7 +40,7 @@
           if (!itLoaded && torrent.downloadSpeed > a.info.filesize/a.info.duration) {
             itLoaded = true
             var file = torrent.files[0]
-            var container = document.getElementById('player')
+            var container = document.getElementsByTagName('video')[0]
             file.renderTo(container)
           }
         })
@@ -63,19 +63,19 @@
       }
     });
     document.body.appendChild(c);
-    // player=videojs("player",{
-    //   sourceOrder:true,
-    //   sources:[
-    //     {src:videoUrl,type:"video/mp4"}
-    //   ],
-    //   techOrder:["html5"],
-    //   playbackRates:[0.25,0.5,0.75,1,1.25,1.5,2],
-    //   controlBar:{
-    //     currentTimeDisplay:false,
-    //     timeDivider:false,
-    //     durationDisplay:false
-    //   }
-    // });
+    player=videojs("player",{
+      sourceOrder:true,
+      sources:[
+        {src:videoUrl,type:"video/mp4"}
+      ],
+      techOrder:["html5"],
+      playbackRates:[0.25,0.5,0.75,1,1.25,1.5,2],
+      controlBar:{
+        currentTimeDisplay:false,
+        timeDivider:false,
+        durationDisplay:false
+      }
+    });
     if (!nobranding)
       player.brand({
         image:"http://i.imgur.com/zq4SRTK.png",
