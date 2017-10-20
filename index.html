@@ -23,11 +23,15 @@
   var path=window.location.href.split("#!/")[1];
   var autoplay = path.split("/")[2]
   var nobranding = path.split("/")[3]
+  var videoGateway = path.split("/")[4]
+  var snapGateway = path.split("/")[5]
+  // use ipfs.io as default gateway
+  if (!videoGateway) videoGateway = 'ipfs.io'
+  if (!snapGateway) snapGateway = 'ipfs.io'
   steem.api.getContent(path.split("/")[0], path.split("/")[1], function(d,b){
     var a=JSON.parse(b.json_metadata).video;
-    // use ipfs as default
-    var posterUrl="https://ipfs.io/ipfs/"+a.info.snaphash;
-    createPlayer("https://ipfs.io/ipfs/"+a.content.videohash, posterUrl, autoplay, nobranding)
+    var posterUrl="https://"+snapGateway+"/ipfs/"+a.info.snaphash;
+    createPlayer("https://"+videoGateway+"/ipfs/"+a.content.videohash, posterUrl, autoplay, nobranding)
 
     // if there's a magnet link, start torrent in background
     if (a.content.magnet) {
